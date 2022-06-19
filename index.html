@@ -8,27 +8,103 @@
     <title>Pizza</title>
 </head>
 <style>
+    body {
+
+        background-color: bisque;
+        background-image: url("fundo.png");
+        background-repeat: auto;
+        background-size: 100%;
+        background-position: bottom;
+        background-attachment: fixed;
+
+    }
 
 
+    .clTitulo {
+
+        color: rgba(255, 255, 255, 0.692);
+        text-decoration: solid;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+    }
+
+    .clTipoPizza {
+
+        font-family: "Times New Roman", Times, serif;
+        color: white;
+
+    }
+
+    .clTamanhoPizza {
+
+        font-family: "Times New Roman", Times, serif;
+        color: white;
+
+    }
+
+    .clPreco {
+
+        font-family: "Times New Roman", Times, serif;
+        color: white;
+
+    }
+
+    tr {
+
+        font-family: "Times New Roman", Times, serif;
+        color: whitesmoke;
+        font-style: initial;
+
+    }
+
+    input[type=text] {
+
+        background-color: rgb(107, 173, 211);
+
+    }
+
+    input[type=button] {
+
+        background-color: rgb(107, 173, 211);
+        border-radius: 4px;
+        padding: 10px 10px;
+        text-align: center;
+        text-decoration: none;
+        width: auto;
+
+    }
+
+    tbody {
+
+        position: absolute;
+        top: auto;
+        border: 3px solid rgb(107, 173, 211);
+        padding: 10px;
+
+    }
 </style>
 
 <body>
     <form action="">
-        <div id="id">
-           <h1 id="idTitulo"><b>Comparador de preços de pizza. </b></h1>
-            <tr>
-
-                <label for="idTipoPizza">Tipo da pizza:</label><br>
+        <h1 class="clTitulo"><b>Comparador de preços de pizza</b></h1>
+        <tr>
+            <div class="clTipoPizza">
+                <label for="idTipoPizza" class="clTipoPizza">Tipo da pizza:</label><br>
                 <input type="text" id="idTipoPizza" name="nmTipoPizza"><br><br>
-                <label for="idTamanhoPIzza">O tamanho da pizza em cm:</label><br>
+            </div>
+            <div class="clTamanhoPizza">
+                <label for="idTamanhoPizza">O tamanho da pizza em cm:</label><br>
                 <input type="text" id="idTamanhoPIzza" name="nmTamanhoPIzza"><br><br>
+            </div>
+            <div class="clPreco">
                 <label for="idPreco">O preço da pizza:</label><br>
                 <input type="text" id="idPreco" name="nmPreco"><br><br>
-                <input type="button" id="idConfirmar" value="Adicionar" onclick="addtabela()">
+            </div>
+            <div class="clBtnConfirmar">
+                <input type="button" id="idBtnConfirmar" value="Adicionar" onclick="addtabela()">
                 <br><br>
-
-            </tr>
-        </div>
+            </div>
+        </tr>
         <table border="1">
             <tbody>
 
