@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza</title>
+</head>
+
+<style>
+    body {
+
+        background-color: bisque;
+        background-image: url("fundo.png");
+        background-repeat: auto;
+        background-size: 100%;
+        background-position: bottom;
+        background-attachment: fixed;
+    }
+
+    .clTitulo {
+
+        color: rgba(255, 255, 255, 0.692);
+        text-decoration: solid;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+    }
+
+    table {
+        height: 10%;
+        background-color: rgb(107, 173, 211);
+        width: 50%;
+
+    }
+
+    .clPreco,
+    .clTamanhoPizza,
+    .clTipoPizza,
+    .tr {
+
+        font-family: "Times New Roman", Times, serif;
+        color: white;
+    }
+
+    .clCampo {
+        display: flex;
+        flex-direction: row;
+
+    }
+
+    .clCampo2 {
+        width: 50%;
+        border-left: 20px;
+        border-right: 20px;
+        text-align: left;
+    }
+
+
+    input[type=text],
+    input[type=number],
+    input[type=button] {
+
+        background-color: rgb(107, 173, 211);
+    }
+
+    input[type=button] {
+
+        border-radius: 4px;
+        padding: 10px 10px;
+        text-align: center;
+        text-decoration: none;
+        width: auto;
+        position: absolute;
+        top: auto;
+        border: 3px solid rgb(107, 173, 211);
+        padding: 10px;
+
+    }
+
+    .botao {
+        padding-left: 10px;
+        padding-right: 85px;
+
+
+
+    }
+</style>
+
+<body>
+    <form action="">
+
+        <h1 class="clTitulo"><b>Precificador de Pizzas </b></h1>
+
+        <div class="clCampo">
+            <div class="clCampo2">
+                <tr>
+                    <div class="clTipoPizza">
+                        <label>Tipo da pizza:</label><br>
+                        <input type="text" id="idNomePizza" name="nmTipoPizza"><br><br>
+                    </div>
+
+                    <div class="clTamanhoPizza">
+                        <label>O tamanho da pizza em cm:</label><br>
+                        <input type="number" id="idTamanhoPizza" name="nmTamanhoPIzza"><br><br>
+                    </div>
+
+                    <div class="clPreco">
+                        <label>O preço da pizza:</label><br>
+                        <input type="number" id="idPreco" name="nmPreco"><br><br>
+                    </div>
+                    <div class="clCampo">
+
+                        <div class="botao">
+                            <input type="button" id="idBtnConfirmar" value="Adicionar" onclick="addTabela()">
+                            <br>
+                        </div>
+
+                        <div class="botao">
+                            <input type="button" id="idBtnOrdenar" value="Ordenar" onclick="addOrdenar()">
+                            <br>
+                        </div>
+
+                    </div>
+                </tr>
+            </div>
+
+            <table border="1" id="idTabela">
+                <tbody>
+                    <tr>
+                        <td>
+                            <label name="nmNomePizza"><b>Nome</b></label>
+                        </td>
+                        <td>
+                            <label name="nmTamanoPizza"><b>Tam.(cm)</b></label>
+                        </td>
+                        <td>
+                            <label name="nmPreco"><b>Preço</b></label>
+                        </td>
+                        <td>
+                            <label name="nmDiferencaPreco"><b>R$ p/cm</b></label>
+                        </td>
+                        <td>
+                            <label name="nmPorcentagem"><b>Diferença em %</b></label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </form>
+
+    <script>
+
+        var diferencaPreco = 0
+        var diferencaPorcentagem = 0
+        var porcentagem = 0
+        var circuloPizza = 0
+        var tabelaNome = []
+        var tabelaTamanho = []
+        var tabelaPreco = []
+        var tabelaPorCM = []
+
+        function addTabela() {
+            let tabela = document.getElementById("idTabela");
+            let linhaContador = tabela.rows.length;
+            let nomePizza = document.getElementById("idNomePizza").value;
+            let tamanhoPizza = document.getElementById("idTamanhoPizza").value;
+            let preco = document.getElementById("idPreco").value;
+
+            if (linhaContador > 1) {
+                for (var i = 1; i < linhaContador; i++) {
+                    tabela.deleteRow(i);
+                }
+
+            }
+
+            if (verificarDados(tamanhoPizza)) {
+
+                calculoValorCM(tamanhoPizza, preco);
+                tabelaNome.push(nomePizza);
+                tabelaTamanho.push(tamanhoPizza);
+                tabelaPreco.push(preco);
+                tabelaPorCM.push(diferencaPreco);
+                diferencaPreco = 0;
+                alert("Dados da pizza salvos, caso não queria adicionar mais,"
+                    + " clique em \"ordenar\" para gerar a lista")
+
+
+            }
+
+        }
+
+        function verificarDados(tamanho) {
+            for (let index = 0; index < tabelaTamanho.length; index++) {
+                if (tabelaTamanho[index] == tamanho) {
+                    alert("Tamanho repetido.")
+                    return false
+                }
+            }
+            return true
+        }
+
+        function addOrdenar() {
+
+            ordenarTabela()
+            let tabela = document.getElementById("idTabela");
+            for (let index = 0; index < tabelaNome.length; index++) {
+                let linhaContador = tabela.rows.length;
+                let linha = tabela.insertRow(linhaContador);
+                linha.insertCell(0).innerHTML = tabelaNome[index];
+                linha.insertCell(1).innerHTML = tabelaTamanho[index] + "cm";
+                linha.insertCell(2).innerHTML = "R$" + tabelaPreco[index];
+                linha.insertCell(3).innerHTML = "R$" + tabelaPorCM[index];
+                if (index == 0) {
+                    porcentagem = "Melhor CB"
+                }
+                else {
+                    calculoPercentualDoisValores(tabelaPorCM[index - 1], tabelaPorCM[index])
+                }
+
+                linha.insertCell(4).innerHTML = porcentagem;
+
+            }
+
+            tabelaNome = []
+            tabelaTamanho = []
+            tabelaPreco = []
+            tabelaPorCM = []
+        }
+
+        function calculoValorCM(cm, valor) {
+
+            diferencaPreco = (valor / cm).toFixed(2)
+
+        }
+
+
+        function calculoPercentualDoisValores(valorMenor, valorMaior) {
+
+            porcentagem = "+" + (((valorMaior - valorMenor) / valorMenor) * 100).toFixed(2) + "%"
+
+        }
+
+
+        function ordenarTabela() {
+            let isTrocou = true
+
+            while (isTrocou) {
+                isTrocou = false
+
+                for (i = 0; i < tabelaPorCM.length; i++) {
+                    if (tabelaPorCM[i] > tabelaPorCM[i + 1]) {
+                        isTrocou = true
+
+                        let aux = tabelaNome[i]
+                        tabelaNome[i] = tabelaNome[i + 1]
+                        tabelaNome[i + 1] = aux
+
+                        aux = tabelaTamanho[i]
+                        tabelaTamanho[i] = tabelaTamanho[i + 1]
+                        tabelaTamanho[i + 1] = aux
+
+                        aux = tabelaPreco[i]
+                        tabelaPreco[i] = tabelaPreco[i + 1]
+                        tabelaPreco[i + 1] = aux
+
+                        aux = tabelaPorCM[i]
+                        tabelaPorCM[i] = tabelaPorCM[i + 1]
+                        tabelaPorCM[i + 1] = aux
+
+                    }
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>
